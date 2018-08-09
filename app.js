@@ -8,23 +8,25 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 // DataBase 
-var mysql = require("mysql");
+// var mysql = require("mysql");
+var mysql = require('promise-mysql');
 const config = require('./config/development_config');
 
-var con = mysql.createConnection({
+var con = mysql.createPool({
   host: config.mysql.host,
   user: config.mysql.user,
   password: config.mysql.password,
-  database: config.mysql.database
+  database: config.mysql.database,
+  connectionLimit: 10
 });
 
-con.connect(function (err) {
-  if (err) {
-    console.log('connecting error');
-    return;
-  }
-  console.log('connecting success');
-});
+// con.connect(function (err) {
+//   if (err) {
+//     console.log('connecting error');
+//     return;
+//   }
+//   console.log('connecting success');
+// });
 
 var app = express();
 
