@@ -12,5 +12,7 @@ router.post('/login', db.login);
 router.post('/updatePassword', db.updatePassword);
 /* 修改會員資料 */
 router.post('/updateProfile', db.updateProfile);
+/* 修改會員大頭貼 */
+router.post('/updateAvatar', db.updateAvatar);
 
 module.exports = router;

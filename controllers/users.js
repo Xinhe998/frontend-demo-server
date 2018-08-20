@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const config = require('../config/development_config');
+const formidable = require('formidable');
+const fs = require('fs');
 
 function register(req, res, next) {
   var db = req.con;
@@ -216,6 +218,94 @@ function updateProfile(req, res, next) {
   }
 }
 
+function updateAvatar(req, res, next) {
+  var db = req.con;
+  const token = req.headers['token'];
+
+  //確定token是否有輸入
+  if (!token) {
+    res.json({
+      err: "請輸入token！"
+    })
+  } else {
+    verifyToken(token).then(tokenResult => {
+      if (tokenResult === false) {
+        res.json({
+          result: {
+            status: "token錯誤。",
+            err: "請重新登入。"
+          }
+        })
+      } else {
+        // res.json({
+        //   test: "token正確"
+        // })
+        let result = {};
+
+        const current_Email = tokenResult;
+        const form = new formidable.IncomingForm();
+        form.parse(req, async function (err, fields, files) {
+          // 確認檔案大小是否小於5MB
+          if (checkFileSize(files.Avatar.size) === true) {
+            res.json({
+              result: {
+                status: "上傳檔案失敗。",
+                err: "請上傳小於5MB的檔案"
+              }
+            })
+            return;
+          }
+          if (checkFileType(files.Avatar.type) === true) {
+            // res.json({
+            //   Email: current_Email,
+            //   Avatar: files.Avatar
+            // })
+            const image = await fileToBase64(files.Avatar.path);
+
+            db.getConnection().then(function () {
+              return db.query('SELECT * FROM member_detail WHERE Email = ?', current_Email);
+            }).then(function (rows) {
+              if (rows.length >= 1) {
+                const memberAvatarData = {
+                  Avatar: image
+                }
+                return db.query('UPDATE member_detail SET ? WHERE Email = ?', [memberAvatarData, current_Email]);
+              } else {
+                const memberAvatarData = [
+                  [current_Email, image]
+                ]
+                return db.query('INSERT INTO member_detail (Email, Avatar) VALUES ?', [memberAvatarData]);
+              }
+            }).then(function (rows) {
+              result.status = "更新成功。"
+              res.json({
+                result: result
+              })
+            }).catch(function (error) {
+              result.status = "更新失敗。"
+              result.err = error;
+              res.json({
+                result: result
+              })
+              //logs out the error
+              //console.log(error);
+            });
+          } else {
+            res.json({
+              result: {
+                status: "上傳檔案失敗。",
+                err: "請選擇正確的檔案格式。如：png, jpg, jpeg等。"
+              }
+            })
+            return;
+          }
+        })
+
+
+      }
+    })
+  }
+}
 
 function hashPassword(password) {
   let hashPassword = crypto.createHash('md5');;
@@ -248,10 +338,35 @@ function verifyToken(token) {
   });
 }
 
+//判斷檔案大小
+function checkFileSize(fileSize) {
+  var maxSize = 5 * 1024 * 1024; //1MB
+  if (fileSize > maxSize) {
+    return true;
+  }
+  return false;
+}
+//判斷型態是否符合jpg, jpeg, png
+function checkFileType(fileType) {
+  if (fileType === 'image/png' || fileType === 'image/jpg' || fileType === 'image/jpeg') {
+    return true;
+  }
+  return false;
+}
+// 圖片轉base64
+const fileToBase64 = (filePath) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'base64', function (err, data) {
+      resolve(data);
+    })
+  })
+}
+
 module.exports = {
   register: register,
   checkEmailIsExist: checkEmailIsExist,
   login: login,
   updatePassword: updatePassword,
-  updateProfile: updateProfile
+  updateProfile: updateProfile,
+  updateAvatar: updateAvatar
 };
