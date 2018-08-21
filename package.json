@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "start http://localhost:3000/apidoc & apidoc -i ./routes -o ./apidoc & node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -18,5 +18,15 @@
     "mysql": "^2.16.0",
     "nodemailer": "^4.6.8",
     "promise-mysql": "^3.3.1"
+  },
+  "apidoc": {
+    "name": "nodejs-api-practice",
+    "title": "nodejs-api-practice",
+    "version": "0.1.0",
+    "description": "apiDoc 練習",
+    "url" : "http://localhost:3000/api",
+    "template": {
+      "forceLanguage": "en"
+    }
   }
 }

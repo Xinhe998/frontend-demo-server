@@ -3,6 +3,39 @@ var router = express.Router();
 
 var db = require('../controllers/users')
 /* 註冊 */
+/**
+ * @api {post} /users/register register
+ * @apiName register
+ * @apiGroup User
+ * @apiVersion 0.1.0
+ * @apiPermission none
+ *
+ * @apiParam  {String} Email 會員Email
+ * @apiParam  {String} Password  會員密碼
+ * @apiParam  {String} Name  會員名稱
+ *
+ *  @apiExample {js} Example usage:
+  * const data = {
+  *   "Email": "xxx@gmail.com",
+  *   "Password": "xxxxxx",
+  *   "Name": "Demo"
+  * }
+  *
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "result": {
+ *          "status": "註冊成功。",
+ *           "member": {
+ *              "Email": "xxx@gmail.com",
+ *              "Password": "1263f6273c4384121a70f2b891691d72",
+ *              "Name": "Demo"
+ *           }
+ *        }
+ *     }
+ *
+ */
 router.post('/register', db.register);
 /* 檢查Email重複 */
 router.post('/checkEmailIsExist', db.checkEmailIsExist)

@@ -41,7 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/apidoc', express.static('apidoc'));
 // db state
 app.use(function (req, res, next) {
   req.con = con;
