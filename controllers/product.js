@@ -57,6 +57,32 @@ function getProductById(req, res, next) {
   });
 }
 
+function deleteProductById(req, res, next) {
+  var db = req.con;
+  var id = req.params.id;
+
+  let result = {};
+
+  db.getConnection().then(function () {
+    return db.query('DELETE FROM product WHERE Id = ?', id);
+  }).then(function (rows) {
+
+    result.status = "success"
+
+    res.json({
+      result: result
+    })
+
+  }).catch(function (error) {
+    result.err = error;
+    res.json({
+      result: result
+    })
+    //logs out the error
+    console.log(error);
+  });
+}
+
 function addProduct(req, res, next) {
   var db = req.con;
   const token = req.headers['token'];
@@ -179,5 +205,6 @@ const fileToBase64 = (filePath) => {
 module.exports = {
   getAllProducts: getAllProducts,
   addProduct: addProduct,
-  getProductById: getProductById
+  getProductById: getProductById,
+  deleteProductById: deleteProductById
 };

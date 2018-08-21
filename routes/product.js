@@ -6,6 +6,8 @@ var db = require('../controllers/product')
 router.get('/getAllProducts', db.getAllProducts);
 /* 取得特定商品資料 */
 router.get('/getProduct/:id', db.getProductById);
+/* 刪除特定商品資料 */
+router.delete('/deleteProduct/:id', db.deleteProductById);
 /* 新增商品資料 */
 router.post('/addProduct', db.addProduct);
 
