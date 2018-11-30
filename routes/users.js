@@ -13,12 +13,14 @@ var db = require('../controllers/users')
  * @apiParam  {String} Email 會員Email
  * @apiParam  {String} Password  會員密碼
  * @apiParam  {String} Name  會員姓名
+ * @apiParam  {Blob} Name  會員大頭貼
  *
  *  @apiExample {js} Example usage:
   * const data = {
   *   "Email": "xxx@gmail.com",
   *   "Password": "xxxxxx",
   *   "Name": "Demo"
+  *   "Avatar": ""
   * }
   *
  *
