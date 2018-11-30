@@ -22,7 +22,7 @@ var con = mysql.createPool({
   password: config.mysql.password,
   database: config.mysql.database,
   connectionLimit: 10,
-  port: 8889
+  port: 3306
 });
 
 // con.connect(function (err) {
@@ -45,18 +45,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/apidoc', express.static('apidoc'));
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/socket.html');
-});
 
-var socketApi = require('./config/socketApi');
-var io = socketApi.io;
 
-io.on('connection', function(socket){
-  socket.on('client_message', function(msg){
-    console.log(msg);
-    socket.emit('message', msg);
-  });
+app.get('/', function (req, res) {
+  res.sendFile(__dirname);
 });
 
 // db state
