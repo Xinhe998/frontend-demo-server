@@ -9,6 +9,7 @@ var db = require('../controllers/users')
  * @apiGroup User
  * @apiVersion 0.1.0
  * @apiPermission none
+ * @apiDescription 註冊
  *
  * @apiParam  {String} Email 會員Email
  * @apiParam  {String} Password  會員密碼
@@ -42,6 +43,32 @@ router.post('/register', db.register);
 
 
 /* 檢查Email重複 */
+/**
+ * @api {post} /users/checkEmailIsExist checkEmailIsExist
+ * @apiName checkEmailIsExist
+ * @apiGroup User
+ * @apiVersion 0.1.0
+ * @apiPermission none
+ * @apiDescription 檢查Email重複
+ *
+ * @apiParam  {String} Email Email
+ *
+ *  @apiExample {js} Example usage:
+  * const data = {
+  *   "Email": "xxx@gmail.com"
+  * }
+  *
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "result": {
+ *          "status": "查詢成功。",
+ *          "desc": "已有重複Email。"
+ *        }
+ *     }
+ *
+ */
 router.post('/checkEmailIsExist', db.checkEmailIsExist)
 
 
@@ -52,6 +79,7 @@ router.post('/checkEmailIsExist', db.checkEmailIsExist)
  * @apiGroup User
  * @apiVersion 0.1.0
  * @apiPermission none
+ * @apiDescription 登入
  *
  * @apiParam  {String} Email 會員Email
  * @apiParam  {String} Password  會員密碼
@@ -82,6 +110,7 @@ router.post('/login', db.login);
  * @apiGroup User
  * @apiVersion 0.1.0
  * @apiPermission none
+ * @apiDescription 修改密碼
  *
  * @apiParam  {String} oldPassword 舊密碼
  * @apiParam  {String} newPassword 新密碼

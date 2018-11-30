@@ -47,13 +47,13 @@ function checkEmailIsExist(req, res, next) {
     } else {
       if (rows.length >= 1) {
         result.status = "查詢成功。"
-        result.err = "已有重複Email。";
+        result.desc = "已有重複Email。";
         res.json({
           result: result
         })
       } else {
         result.status = "查詢成功。"
-        result.err = "未有重複Email。";
+        result.desc = "未有重複Email。";
         res.json({
           result: result
         })
