@@ -138,6 +138,38 @@ router.post('/login', db.login);
  */
 router.post('/updatePassword', db.updatePassword);
 
+/* 拿會員資料 */
+/**
+ * @api {post} /users/getProfile getProfile
+ * @apiName getProfile
+ * @apiGroup User
+ * @apiVersion 0.1.0
+ * @apiPermission none
+ * @apiDescription 拿會員資料
+ *
+ *
+ * @apiHeaderExample {json} Header Example: 
+    * {
+    *   "token": "Bearer token"
+    *  }
+    * 
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "result": {
+ *          "status": "success",
+ *          "data": {
+ *             "Name": "Xinhe",
+ *             "Avatar": null,
+ *             "CreateTime": "2018-11-29T21:00:11.000Z"
+ *          }
+ *        }
+ *     }
+ *
+ */
+router.post('/getProfile', db.getProfile);
+
 
 /* 修改會員資料 */
 router.post('/updateProfile', db.updateProfile);

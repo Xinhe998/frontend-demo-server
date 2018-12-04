@@ -40,7 +40,7 @@ function checkEmailIsExist(req, res, next) {
     if (err) {
       console.log(err);
       result.status = "查詢失敗。"
-      result.err = "伺服器錯誤，請稍後在試！"
+      result.err = "伺服器錯誤，請稍後再試！"
       res.json({
         result: err
       })
@@ -362,11 +362,64 @@ const fileToBase64 = (filePath) => {
   })
 }
 
+function getProfile(req, res, next) {
+  var db = req.con;
+  const token = req.headers['token'];
+
+   //確定token是否有輸入
+  if (!token) {
+    res.json({
+      err: "請輸入token！"
+    })
+  } else {
+    verifyToken(token).then(tokenResult => {
+      if (tokenResult === false) {
+        res.json({
+          result: {
+            status: "token錯誤。",
+            err: "請重新登入。"
+          }
+        })
+      } else {
+        // res.json({
+        //   test: "token正確"
+        // })
+        let result = {};
+
+        const current_Email = tokenResult;
+        
+        db.getConnection().then(function () {
+          return db.query('SELECT * FROM member WHERE Email = ?', current_Email);
+        }).then(function (rows) {
+          if (rows.length >= 1) {
+            var memberData = {
+              Name: rows[0].Name,
+              Avatar: rows[0].Avatar,
+              CreateTime: rows[0].CreateTime
+            }
+          }
+
+          result.status = "success"
+          result.data = memberData;
+          res.json({
+            result: result
+          })
+        }).catch(function (error) {
+
+          //logs out the error
+          console.log(error);
+        });
+      }
+    })
+  }
+}
+
 module.exports = {
   register: register,
   checkEmailIsExist: checkEmailIsExist,
   login: login,
   updatePassword: updatePassword,
   updateProfile: updateProfile,
-  updateAvatar: updateAvatar
+  updateAvatar: updateAvatar,
+  getProfile: getProfile
 };
