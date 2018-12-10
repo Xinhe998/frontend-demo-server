@@ -6,10 +6,8 @@ var logger = require('morgan');
 //var http = require('http').Server(app);
 //var io = require('socket.io')(http);
 
-var indexRouter = require('./routes/index');
+//var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var productsRouter = require('./routes/product');
-var orderRouter = require('./routes/order');
 
 // DataBase 
 // var mysql = require("mysql");
@@ -47,9 +45,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/apidoc', express.static('apidoc'));
 
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname);
-});
 
 // db state
 app.use(function (req, res, next) {
@@ -57,10 +52,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/', indexRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/order', orderRouter);
+app.use('/', usersRouter);
+// app.get('/', function (req, res) {
+//   res.sendFile(__dirname);
+//   res.render('index');
+// });
+//app.use('/api/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
