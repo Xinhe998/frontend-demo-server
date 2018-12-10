@@ -4,6 +4,6 @@ var router = express.Router();
 var db = require('../controllers/users')
 
 router.post('/sendData', db.sendData);
-router.get('/getAllData', db.getAllData);
+router.get('/', db.getAllData);
 
 module.exports = router;

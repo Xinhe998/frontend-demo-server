@@ -50,7 +50,7 @@ function getAllData(req, res, next) {
     res.json({
       result: result
     })
-    res.render('index', { title: 'Account Information', data: result});
+    res.render('index', { title: 'Account Information', data: rows});
 
   }).catch(function (error) {
     result.err = error;

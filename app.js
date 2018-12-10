@@ -53,11 +53,12 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', usersRouter);
-// app.get('/', function (req, res) {
-//   res.sendFile(__dirname);
-//   res.render('index');
-// });
+app.get('/', function (req, res) {
+  res.sendFile(__dirname);
+  res.render('index');
+});
 //app.use('/api/users', usersRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
