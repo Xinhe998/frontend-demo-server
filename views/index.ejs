@@ -1,12 +1,119 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>基本資料</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <p><%= data %></p>
+      <div class="container">
+          <h1>基 本 資 料</h1>
+          <form action="/sendData" method="POST" class="ui form">
+              <div class="field">
+                  <label>學號</label>
+                  <input type="text" name="sid" value="" autofocus="autofocus" class="form-control" />
+              </div>
+              <div class="field">
+                  <label>姓名</label>
+                  <input type="text" name="name" value="" class="form-control" />
+              </div>
+              <div class="field">
+                  <label>班級</label>
+                  <input type="text" name="class" value="" class="form-control" />
+              </div>
+              <div class="field">
+                  <label>自我介紹</label>
+                  <textarea name="desc" rows="2"></textarea>
+              </div>
+              <div class="inline fields">
+                  <label>性別</label>
+                  <div class="field">
+                      <div class="ui radio checkbox">
+                          <input type="radio" name="gender">
+                          <label>男</label>
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="ui radio checkbox">
+                          <input type="radio" name="gender">
+                          <label>女</label>
+                      </div>
+                  </div>
+              </div>
+              <div class="field">
+                  <button type="submit" class="ui button">送出</button>
+              </div>
+          </form>
+      </div>
+      
+      </div>
   </body>
+  <script>
+  $("input:text").click(function() {
+  $(this).parent().find("input:file").click();
+});
+
+$('input:file', '.ui.input')
+  .on('change', function(e) {
+    var name = e.target.files[0].name;
+    $('input:text', $(e.target).parent()).val(name);
+  });
+
+
+  $('.ui.form')
+  .form({
+    fields: {
+      sid: {
+        identifier: 'sid',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : '請輸入學號'
+          }
+        ]
+      },
+      name: {
+        identifier: 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : '請輸入姓名'
+          }
+        ]
+      },
+      gender: {
+        identifier: 'gender',
+        rules: [
+          {
+            type   : 'checked',
+            prompt : '請選擇性別'
+          }
+        ]
+      },
+      class: {
+        identifier: 'class',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : '請輸入班級'
+          }
+        ]
+      },
+      desc: {
+        identifier: 'desc',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : '請輸入自我介紹'
+          }
+        ]
+      }
+    }
+  })
+;
+
+  </script>
 </html>

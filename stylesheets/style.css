@@ -1,0 +1,25 @@
+
+body {
+    margin: 0;
+    background-color: #f5f5f5 !important;
+    color: #4d4d4d !important;
+    font-weight: 300;
+}
+.container {
+    width: 70%;
+    margin: 0 auto;
+    
+}
+.ui.input{
+    margin-top: 30px;
+}
+h1 {
+    color: #5ec2ae;
+    font-size: 100px;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: 500 !important;
+}
+.ui.input input[type="file"] {
+    display: none;
+  }

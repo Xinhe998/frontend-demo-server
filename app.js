@@ -37,6 +37,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use('/stylesheets', express.static('stylesheets'));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -54,8 +56,7 @@ app.use(function (req, res, next) {
 
 app.use('/', usersRouter);
 app.get('/', function (req, res) {
-  res.sendFile(__dirname);
-  res.render('index');
+  console.log(res);
 });
 //app.use('/api/users', usersRouter);
 

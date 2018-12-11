@@ -21,7 +21,7 @@ function sendData(req, res, next) {
     if (err) {
       console.log(err);
       result.status = "失敗。"
-      result.err = "伺服器錯誤，請稍後在試！"
+      result.err = "伺服器錯誤，請稍後再試！"
       res.json({
         result: err
       })
@@ -35,36 +35,36 @@ function sendData(req, res, next) {
   })
 }
 
-function getAllData(req, res, next) {
-  var db = req.con;
+function renderIndex(req, res, next) {
+    res.render('index');
+}
 
+function getData(req, res, next) {
+  var db = req.con;
   let result = {};
 
-  db.getConnection().then(function () {
-    return db.query('SELECT * FROM data');
-  }).then(function (rows) {
-
-    result.status = "success";
-    result.data = rows;
-
-    res.json({
-      result: result
-    })
-    res.render('index', { title: 'Account Information', data: rows});
-
-  }).catch(function (error) {
-    result.err = error;
-    res.json({
-      result: result
-    })
-    //logs out the error
-    console.log(error);
-  });
-
+  //console.log(req.body);
+  db.query('SELECT * FROM data', function (err, rows) {
+    if (err) {
+      console.log(err);
+      result.status = "失敗。"
+      result.err = "伺服器錯誤，請稍後再試！"
+      res.json({
+        result: err
+      })
+    } else {
+      result.status = "success"
+      result.data = rows;
+      res.json({
+        result: result
+      })
+    }
+  })
 }
 
 
 module.exports = {
   sendData: sendData,
-  getAllData: getAllData
+  renderIndex: renderIndex,
+  getData: getData
 };
